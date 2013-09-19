@@ -3,6 +3,11 @@ Yandex OAuth Token
 
 http://api.yandex.ru/oauth/doc/dg/reference/obtain-access-token.xml
 
+-------------------------
+Класс YOAuth предназначен для получения Yandex OAuth Token, используемого в Yandex API
+
+-------------------------
+```
 try{
     
     // Установить параметры авторизации
@@ -35,3 +40,4 @@ try{
     // Show Error   
     echo $e-> getMessage();
 }
+```
