@@ -4,7 +4,7 @@ Yandex OAuth Token
 http://api.yandex.ru/oauth/doc/dg/reference/obtain-access-token.xml
 
 -------------------------
-Класс OAuth, осуществляет процедуру получения Yandex OAuth Token, необходимого для взаимодействия с Yandex API
+Класс YOAuth, осуществляет процедуру получения Yandex OAuth Token, необходимого для взаимодействия с Yandex API
 
 -------------------------
 ```
