@@ -2,7 +2,7 @@
   /* 
       .:: Yandex OAuth ::. 
 
-        Version : 0.2b 
+        Version : 0.3b 
         Author : [di7spider] Gurov Dmitry ( gurov.dimon@gmail.com )      
   */
 
@@ -68,9 +68,12 @@
 
                 $arResult = self::_httpQuery(
                     $arParams['API_URL']['passport'], 
-                    Array(), 
+                    Array(),
+                    'GET', 
                     false, 
-                    Array('browser')
+                    Array(
+                        'browser'
+                    )
                 );
 
                 $data = $arResult['CONTENT'];
@@ -156,7 +159,8 @@
                     'GET',
                     false,
                     Array(
-                      'cookie'
+                      'cookie',
+                      'browser'
                     )
                 );
 
