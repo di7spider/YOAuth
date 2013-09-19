@@ -2,7 +2,7 @@
   /* 
       .:: Yandex OAuth ::. 
 
-        Version : 0.1b 
+        Version : 0.2b 
         Author : [di7spider] Gurov Dmitry ( gurov.dimon@gmail.com )      
   */
 
@@ -68,33 +68,66 @@
 
                 $arResult = self::_httpQuery(
                     $arParams['API_URL']['passport'], 
-                    Array(
-                        'login' => htmlspecialchars($arParams['AUTH']['USER']['LOGIN']),
-                        'passwd' => htmlspecialchars($arParams['AUTH']['USER']['PASSWORD'])
-                    ),
-                    'GET',
-                    false,
-                    Array(
-                        'header',
-                        'browser'
-                    )
+                    Array(), 
+                    false, 
+                    Array('browser')
                 );
 
                 $data = $arResult['CONTENT'];
 
                 if(!empty($data)){
 
-                    preg_match_all("/Set-Cookie: (.*?=.*?);/i", $data, $arCookies);
+                     $objInputs = self::_getXPathXML($data)-> query("//input");
 
-                    $arCookies = $arCookies[1];
+                     if(!is_null($objInputs)){
 
-                    if(is_array($arCookies) && count($arCookies) > 0){
+                        foreach($objInputs as $objInput){
 
-                        return ( $_SESSION['_YD_'][$sessCookie] = htmlspecialchars(implode("; ", $arCookies) ));
-                    
-                    }else
-                        throw new Exception('Не удалось получить Cookie пользователя (:');
+                            $name = htmlspecialchars($objInput-> getAttribute('name'));
+                            $value = htmlspecialchars($objInput-> getAttribute('value'));
+
+                            if(!empty($name))
+                                $arDataSend[$name] = $value;
+                        }
+                    }
                 }
+
+                if(is_array($arDataSend)){
+
+                    $arDataSend = array_merge($arDataSend, Array(
+                        'login' => htmlspecialchars($arParams['AUTH']['USER']['LOGIN']),
+                        'passwd' => htmlspecialchars($arParams['AUTH']['USER']['PASSWORD'])
+                    ));
+           
+                    $arResult = self::_httpQuery(
+                        $arParams['API_URL']['passport'], 
+                        $arDataSend,
+                        'POST',
+                        false,
+                        Array(
+                            'header',
+                            'browser'
+                        )
+                    );
+
+                    $data = $arResult['CONTENT'];
+ 
+                    if(!empty($data)){
+
+                        preg_match_all("/Set-Cookie: (.*?=.*?);/i", $data, $arCookies);
+
+                        $arCookies = $arCookies[1];
+
+                        if(is_array($arCookies) && count($arCookies) > 0){
+
+                            return ( $_SESSION['_YD_'][$sessCookie] = htmlspecialchars(implode("; ", $arCookies) ));
+                        
+                        }else
+                            throw new Exception('Не удалось получить Cookie пользователя (:');
+                    }
+
+                }else
+                    throw new Exception('Не удалось получить данные со страницы авторизации (:');
              }
          }
 
@@ -131,13 +164,7 @@
 
                 if(!empty($data)){
 
-                    $XML = new DomDocument;
-
-                    $XML-> loadHTML($data);
-
-                    $xPath = new DomXPath($XML);
-
-                    $code = $xPath-> query("//*[@class='confirm-code']/*/code")-> item(0)-> nodeValue;
+                    $code = self::_getXPathXML($data)-> query("//*[@class='confirm-code']/*/code")-> item(0)-> nodeValue;
 
                     if(!empty($code)){
 
@@ -199,6 +226,23 @@
              }
          }
 
+         /*
+            Info :  Возвращает объект XML DOM XPath
+            Params : (string) @param1 
+
+            Return :  (object) DomDocument
+        */
+        static protected function _getXPathXML($xmlData = '')
+         {
+            if(!empty($xmlData)){
+
+                $XML = new DomDocument;
+
+                $XML-> loadHTML($xmlData);
+
+                return new DomXPath($XML);
+            }
+         }
         
         /*
             Info :  Сливаем два массива
