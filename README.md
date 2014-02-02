@@ -27,7 +27,7 @@ try{
     ));
 
     // Получить токен (c сохранением в Session)
-    $token = YOAuth::getNewToken();
+    $token = YOAuth::getToken();
 
     // Получить токен (без сохранения в Session)
     // $token = YOAuth::getNewToken();
