@@ -7,7 +7,7 @@ http://api.yandex.ru/oauth/doc/dg/reference/obtain-access-token.xml
 Класс YOAuth, осуществляет процедуру получения Yandex OAuth Token, необходимого для взаимодействия с Yandex API
 
 -------------------------
-```
+```php
 <?php
 
 try{
