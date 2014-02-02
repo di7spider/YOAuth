@@ -29,7 +29,7 @@ try{
     // Получить токен (c сохранением в Session)
     $token = YOAuth::getToken();
 
-    // Получить токен новый (без сохранения в Session)
+    // Получить новый токен (без сохранения в Session)
     // $token = YOAuth::getNewToken();
 
     // Yandex OAuth Token
