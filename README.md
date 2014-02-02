@@ -26,10 +26,10 @@ try{
         )
     ));
 
-    // Получить новый токен (c сохранением в Session)
+    // Получить токен (c сохранением в Session)
     $token = YOAuth::getToken();
 
-    // Получить токен (без сохранения в Session)
+    // Получить токен новый (без сохранения в Session)
     // $token = YOAuth::getNewToken();
 
     // Yandex OAuth Token
