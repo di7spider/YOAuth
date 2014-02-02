@@ -8,8 +8,6 @@ http://api.yandex.ru/oauth/doc/dg/reference/obtain-access-token.xml
 
 -------------------------
 ```php
-<?
-
 try{
     
     // Установить параметры авторизации
@@ -42,6 +40,4 @@ try{
     // Show Error   
     echo $e-> getMessage();
 }
-
-?>
 ```
